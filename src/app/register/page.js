@@ -1,9 +1,8 @@
-import About from '../../components/About'
 import React from 'react'
-
+import Register from '../../components/Register'
 function page() {
     return (
-        <About />
+        <Register />
     )
 }
 

@@ -1,4 +1,4 @@
-import Career from '../../../components/Career'
+import Career from '../../components/Career'
 import React from 'react'
 
 function page() {

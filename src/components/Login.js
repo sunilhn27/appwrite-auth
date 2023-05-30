@@ -1,21 +1,28 @@
 "use client"
 import Image from 'next/image'
 import React from 'react'
-import welcome from '../public/Asserts/Images/welcome.png'
+import welcome from '../../public/Asserts/Images/welcome.png'
 import { FcGoogle } from 'react-icons/fc';
 import { useState } from 'react';
+import Link from 'next/link';
+import { account } from '@/services/appwrite.config';
+import { useRouter } from 'next/navigation';
+
 
 function Login() {
     const [userName, setuserName] = useState("")
     const [password, setPassword] = useState("")
+    const router = useRouter();
 
-
-    function onSubmit(e) {
+    async function onSubmit(e) {
         e.preventDefault();
-        console.log("userName " + userName)
-        console.log("password " + password)
-        setuserName("")
-        setPassword("")
+        try {
+            await account.createEmailSession(userName, password);
+            router.push('/dashboard');
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     return (
@@ -47,7 +54,9 @@ function Login() {
                             <hr className='font-bold'></hr>
                             <div className='flex flex-row space-x-6 '>
                                 <p>Don't Have an account,Create</p>
-                                <button className='bg-blue-400 px-4 py-1 rounded-xl cursor-pointer hover:bg-blue-700 text-white'>Register</button>
+                                <Link rel="preload" href={"/register"}>
+                                    <button className='bg-blue-400 px-4 py-1 rounded-xl  hover:bg-blue-700 text-white'>Register</button>
+                                </Link>
                             </div>
                         </div>
 
@@ -55,7 +64,7 @@ function Login() {
 
                 </div>
                 <div className='hidden md:block flex-1'>
-                    <Image src={welcome} alt='img' className=' rounded-lg' />
+                    <Image src={welcome} alt='img' className=' rounded-lg' priority />
                 </div>
             </div>Ï
         </div>
